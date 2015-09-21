@@ -7,7 +7,7 @@ from urlparse import urljoin
 
 import requests
 
-__version__ = (1, 0, 0)
+__version__ = (1, 0, 1)
 __author__ = 'Alexandr Shurigin (https://github.com/phpdude/)'
 
 # HTML tags syntax http://www.w3.org/TR/html-markup/syntax.html
@@ -47,7 +47,7 @@ def resolve_url(
         chunk_size=1500,
         max_redirects=30,
         history=False,
-        remove_noscript=True,
+        remove_noscript=False,
         **kwargs):
     """
     Helper function for expanding shortened urls.
