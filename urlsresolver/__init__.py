@@ -7,7 +7,7 @@ from urlparse import urljoin
 
 import requests
 
-__version__ = (1, 0, 1)
+__version__ = (1, 1, 0)
 __author__ = 'Alexandr Shurigin (https://github.com/phpdude/)'
 
 # HTML tags syntax http://www.w3.org/TR/html-markup/syntax.html

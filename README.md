@@ -7,7 +7,24 @@ Checks for meta refresh html tags & refresh http header.
 
 # Installation
 
-You can install library as usual with `pip install urlsresolver`. 
+You can install library as usual with `pip install urlsresolver`.
+ 
+# Python module usage
+
+Example of usage module as console utility.
+ 
+> python -m urlsresolver http://t.co/dRW1iSInvA -V
+> Source:
+>     http://t.co/dRW1iSInvA
+> 
+> Expanded:
+>     http://www.findelight.net/frenbull_detail.html?id=1078982008178233213_2206075018
+> 
+> Redirects history:
+>     1. http://t.co/dRW1iSInvA
+>     2. http://www.findelight.net/frenbull_detail.html?id=1078982008178233213_2206075018
+> 
+> Total 1 redirects
 
 
 # Contributon and contacts
