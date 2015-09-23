@@ -5,9 +5,7 @@ from contextlib import closing
 import re
 from urlparse import urljoin
 
-import requests
-
-__version__ = (1, 1, 1)
+__version__ = (1, 1, 2)
 __author__ = 'Alexandr Shurigin (https://github.com/phpdude/)'
 
 # HTML tags syntax http://www.w3.org/TR/html-markup/syntax.html
@@ -61,6 +59,8 @@ def resolve_url(
     :param kwargs: Custom kwargs for requests.get(**kwargs) function.
     :return: str|tuple
     """
+    import requests
+
     s = requests.session()
 
     urls_history = OrderedDict()
