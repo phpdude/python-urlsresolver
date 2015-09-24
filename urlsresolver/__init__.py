@@ -5,7 +5,7 @@ from contextlib import closing
 import re
 from urlparse import urljoin
 
-__version__ = (1, 1, 2)
+__version__ = (1, 1, 3)
 __author__ = 'Alexandr Shurigin (https://github.com/phpdude/)'
 
 # HTML tags syntax http://www.w3.org/TR/html-markup/syntax.html
@@ -64,6 +64,9 @@ def resolve_url(
     s = requests.session()
 
     urls_history = OrderedDict()
+    # disable compression for streamed requests.
+    s.headers['Accept-Encoding'] = ''
+
     if user_agent:
         s.headers['User-Agent'] = user_agent
 
@@ -97,7 +100,13 @@ def resolve_url(
             if redirect:
                 m = re.search('url\s*=\s*([^\s;]+)', redirect, re.I)
                 if m:
-                    real_url = follow_meta_redirects(urljoin(resp.url, m.group(1)), max_redirects)
+                    m = m.group(1)
+
+                    # fixing case url='#url here#'
+                    if m.startswith(('"', "'")) and m.endswith(('"', "'")):
+                        m = m[1:-1]
+
+                    real_url = follow_meta_redirects(urljoin(resp.url, m), max_redirects)
 
         urls_history[real_url] = True
 

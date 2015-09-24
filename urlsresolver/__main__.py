@@ -13,7 +13,6 @@ if __name__ == '__main__':
     args.add_argument('-A', '--user-agent', help='Custom user agent')
     args.add_argument('-S', '--chunk-size', default=1500, metavar='SIZE',
                       help='Length of fetched html block for testing meta redirects. Default 1500')
-    args.add_argument('-H', '--history', help='Print redirection history', action='store_true')
     args.add_argument(
         '--remove_noscript',
         action='store_true',
