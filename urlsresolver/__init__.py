@@ -5,7 +5,7 @@ from contextlib import closing
 import re
 from urlparse import urljoin
 
-__version__ = (1, 1, 3)
+__version__ = (1, 1, 4)
 __author__ = 'Alexandr Shurigin (https://github.com/phpdude/)'
 
 # HTML tags syntax http://www.w3.org/TR/html-markup/syntax.html
@@ -70,13 +70,13 @@ def resolve_url(
     if user_agent:
         s.headers['User-Agent'] = user_agent
 
-    def follow_meta_redirects(url, max_redirects, **kwargs):
+    def follow_meta_redirects(url, redirects, **kwargs):
         urls_history[url] = True
 
-        if max_redirects < 0:
+        if redirects < 0:
             raise ValueError("Cannot resolve real url with max_redirects=%s" % max_redirects)
 
-        max_redirects -= 1
+        redirects -= 1
 
         with closing(s.get(url, allow_redirects=True, stream=True, **kwargs)) as resp:
             if resp.history:
@@ -85,28 +85,28 @@ def resolve_url(
 
             head, real_url = next(resp.iter_content(chunk_size, decode_unicode=False)), resp.url
 
-            # Removing html blocks in <noscript></noscript>
-            if remove_noscript:
-                head = re.sub('<noscript[^>]*>.*</noscript[^>]*>', '', head, flags=re.DOTALL)
+        # Removing html blocks in <noscript></noscript>
+        if remove_noscript:
+            head = re.sub('<noscript[^>]*>.*</noscript[^>]*>', '', head, flags=re.DOTALL)
 
-            redirect = None
-            if 'refresh' in resp.headers:
-                redirect = resp.headers['refresh']
-            elif not redirect:
-                for tag in get_tags(head, 'meta'):
-                    if tag.get('http-equiv', '') == 'refresh':
-                        redirect = tag.get('content', None)
+        redirect = None
+        if 'refresh' in resp.headers:
+            redirect = resp.headers['refresh']
+        elif not redirect:
+            for tag in get_tags(head, 'meta'):
+                if tag.get('http-equiv', '') == 'refresh':
+                    redirect = tag.get('content', None)
 
-            if redirect:
-                m = re.search('url\s*=\s*([^\s;]+)', redirect, re.I)
-                if m:
-                    m = m.group(1)
+        if redirect:
+            m = re.search('url\s*=\s*([^\s;]+)', redirect, re.I)
+            if m:
+                m = m.group(1)
 
-                    # fixing case url='#url here#'
-                    if m.startswith(('"', "'")) and m.endswith(('"', "'")):
-                        m = m[1:-1]
+                # fixing case url='#url here#'
+                if m.startswith(('"', "'")) and m.endswith(('"', "'")):
+                    m = m[1:-1]
 
-                    real_url = follow_meta_redirects(urljoin(resp.url, m), max_redirects)
+                real_url = follow_meta_redirects(urljoin(resp.url, m), redirects)
 
         urls_history[real_url] = True
 
