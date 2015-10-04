@@ -1,4 +1,4 @@
-# urlsresolver v1.1.4
+# urlsresolver v1.1.6
 Python urls resolver library with meta refresh support.
 
 You can expand real address of any shortened url with `urlsresolver.resolve_url(url)` function.

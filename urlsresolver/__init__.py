@@ -7,7 +7,7 @@ from urlparse import urljoin
 
 from requests.packages import chardet
 
-__version__ = (1, 1, 5)
+__version__ = (1, 1, 6)
 __author__ = 'Alexandr Shurigin (https://github.com/phpdude/)'
 
 # HTML tags syntax http://www.w3.org/TR/html-markup/syntax.html
@@ -30,13 +30,13 @@ def get_tags(html, tag_name):
 
         for x in re.findall('(?:(%s))' % TAG_ATTRIBUTES_REGEX, m, re.UNICODE):
             if x[1]:
-                attrs[x[1]] = parser.unescape(x[2].decode('utf-8'))
+                attrs[x[1]] = parser.unescape(x[2])
             elif x[3]:
-                attrs[x[3]] = parser.unescape(x[4].decode('utf-8'))
+                attrs[x[3]] = parser.unescape(x[4])
             elif x[5]:
-                attrs[x[5]] = parser.unescape(x[6].decode('utf-8'))
+                attrs[x[5]] = parser.unescape(x[6])
             elif x[7]:
-                attrs[x[7]] = parser.unescape(x[7].decode('utf-8'))
+                attrs[x[7]] = parser.unescape(x[7])
 
         yield attrs
 
