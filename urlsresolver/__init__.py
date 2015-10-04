@@ -5,7 +5,9 @@ from contextlib import closing
 import re
 from urlparse import urljoin
 
-__version__ = (1, 1, 4)
+from requests.packages import chardet
+
+__version__ = (1, 1, 5)
 __author__ = 'Alexandr Shurigin (https://github.com/phpdude/)'
 
 # HTML tags syntax http://www.w3.org/TR/html-markup/syntax.html
@@ -83,7 +85,17 @@ def resolve_url(
                 for r in resp.history:
                     urls_history[r.url] = True
 
-            head, real_url = next(resp.iter_content(chunk_size, decode_unicode=False)), resp.url
+            head, real_url = resp.iter_content(chunk_size).next(), resp.url
+
+            encoding = resp.encoding
+            if encoding is None:
+                # detect encoding
+                encoding = chardet.detect(head)['encoding']
+
+            try:
+                head = unicode(head, encoding, errors='replace')
+            except (LookupError, TypeError):
+                head = unicode(head, errors='replace')
 
         # Removing html blocks in <noscript></noscript>
         if remove_noscript:
