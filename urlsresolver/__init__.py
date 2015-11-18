@@ -5,9 +5,7 @@ from contextlib import closing
 import re
 from urlparse import urljoin
 
-from requests.packages import chardet
-
-__version__ = (1, 1, 6)
+__version__ = (1, 1, 7)
 __author__ = 'Alexandr Shurigin (https://github.com/phpdude/)'
 
 # HTML tags syntax http://www.w3.org/TR/html-markup/syntax.html
@@ -62,6 +60,7 @@ def resolve_url(
     :return: str|tuple
     """
     import requests
+    from requests.packages import chardet
 
     s = requests.session()
 
