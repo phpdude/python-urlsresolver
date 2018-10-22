@@ -1,3 +1,4 @@
+from builtins import next
 from unittest import TestCase
 
 from urlsresolver import get_tags

@@ -1,4 +1,5 @@
 # coding=utf-8
+from __future__ import unicode_literals
 from random import shuffle, choice
 import unittest
 import re
@@ -18,9 +19,9 @@ URL_REGEX = r"""(?i)\b((?:https?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:com|net|
 class TestTwitterTrendsUrls(unittest.TestCase):
     def setUp(self):
         trends = requests.get('https://twitter.com/twitter')
-
-        urls = re.findall(URL_REGEX, trends.content)
-        urls = list(x for x in urls if re.match('https?://t.co/[a-z0-9]+$', x, re.IGNORECASE))
+        urls = re.findall(URL_REGEX, trends.content.decode('utf-8'))
+        urls = list(x for x in urls if re.match(
+            r'https?://t.co/[a-z0-9]+$', x, re.IGNORECASE))
         shuffle(urls)
 
         self.urls = urls

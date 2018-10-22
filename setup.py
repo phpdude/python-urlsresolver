@@ -1,9 +1,16 @@
 #!/usr/bin/env python -u
-from setuptools import setup, find_packages
+from os import path
+from setuptools import setup
+from setuptools import find_packages
+
+here = path.abspath(path.dirname(__file__))
+__version__ = None
+with open(path.join(here, 'urlsresolver', '__version.py')) as __version:
+    exec(__version.read())
 
 setup(
     name='urlsresolver',
-    version=".".join(map(str, __import__("urlsresolver").__version__)),
+    version=__version__,
     description='Python urls resolver library',
     author='Alexandr I. Shurigin',
     author_email='ya@helldude.ru',
@@ -25,6 +32,7 @@ setup(
         "Topic :: Utilities"
     ],
     install_requires=[
-        'requests'
+        'requests',
+        'future'
     ]
 )

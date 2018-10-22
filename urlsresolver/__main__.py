@@ -1,3 +1,4 @@
+from __future__ import print_function
 import argparse
 
 import urlsresolver
@@ -5,11 +6,11 @@ import urlsresolver
 if __name__ == '__main__':
     args = argparse.ArgumentParser(
         prog='python -m urlsresolver',
-        description='Urls resolver library. Allow you get real url of shortened.',
-        version=".".join(map(str, urlsresolver.__version__)),
+        description='Urls resolver library. Allow you get real url of shortened.'
     )
     args.add_argument('url')
-    args.add_argument('-V', '--verbose', help='Verbose output', action='store_true')
+    args.add_argument('-V', '--verbose',
+                      help='Verbose output', action='store_true')
     args.add_argument('-A', '--user-agent', help='Custom user agent')
     args.add_argument('-S', '--chunk-size', default=1500, metavar='SIZE',
                       help='Length of fetched html block for testing meta redirects. Default 1500')
@@ -29,14 +30,14 @@ if __name__ == '__main__':
     )
 
     if not args.verbose:
-        print result
+        print(result)
     else:
-        print 'Source:\n    %s\n' % args.url
-        print 'Expanded:\n    %s\n' % result[0]
+        print('Source:\n    %s\n' % args.url)
+        print('Expanded:\n    %s\n' % result[0])
 
         if len(result[1]) > 1:
-            print 'Redirects history:'
+            print('Redirects history:')
             for i, url in enumerate(result[1], start=1):
-                print '    %s. %s' % (i, url)
+                print('    %s. %s' % (i, url))
 
-            print '\nTotal %s redirects' % (len(result[1]) - 1)
+            print('\nTotal %s redirects' % (len(result[1]) - 1))
